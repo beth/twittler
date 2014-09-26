@@ -6,6 +6,13 @@
   </head>
   <body>
     <script>
+    	
+    var formatDate = function(dateString)
+    {
+    var newDate = new Date(dateString);
+    var formattedDateString = (newDate.getMonth()+1) + '/' + newDate.getDate() + '/' + newDate.getFullYear() + ' ' + newDate.getHours() + ':' + newDate.getMinutes();
+    return formattedDateString;
+    };
     
       $(document).ready(function(){
       	//create jquery variable for body, clear body
@@ -22,7 +29,7 @@
         	{
         		var tweet = streams.home[start];
         		var $tweet = $('<div></div>');
-        		$tweet.text('@' + tweet.user + ': ' + tweet.message);
+        		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
         		$button.after($tweet);
         		start += 1;
         	}
