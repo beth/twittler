@@ -6,20 +6,38 @@
   </head>
   <body>
     <script>
-
+    
       $(document).ready(function(){
+      	//create jquery variable for body, clear body
         var $body = $('body');
         $body.html('');
-
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
+        //create button
+        var button = $('<button type="button">Update Tweets</button>');
+        $body.prepend(button); 
+        var $button = $('button');
+        
+        //Will use this to post all tweets, both initial and update
+        var postTweets = function(start,stop){
+        	while(start<=stop)
+        	{
+        		var tweet = streams.home[start];
+        		var $tweet = $('<div></div>');
+        		$tweet.text('@' + tweet.user + ': ' + tweet.message);
+        		$button.after($tweet);
+        		start += 1;
+        	}
         }
-
+        //First post of tweets
+        var start = 0;
+        var stop = streams.home.length-1;
+        postTweets(start, stop);
+		
+		//For refreshing tweets
+		$button.click(function(){
+		start = stop+1;
+		stop = streams.home.length-1;
+		postTweets(start,stop);
+		});
       });
 
     </script>
