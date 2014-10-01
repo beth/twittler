@@ -3,6 +3,7 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <link rel="stylesheet" type = "text/css" href="style.css">
   </head>
   <body>
     <script>
@@ -10,7 +11,8 @@
     var formatDate = function(dateString)
     {
     var newDate = new Date(dateString);
-    var formattedDateString = (newDate.getMonth()+1) + '/' + newDate.getDate() + '/' + newDate.getFullYear() + ' ' + newDate.getHours() + ':' + newDate.getMinutes();
+    var mins = (newDate.getMinutes()<9) ? '0' + newDate.getMinutes() : newDate.getMinutes();
+    var formattedDateString = (newDate.getMonth()+1) + '/' + newDate.getDate() + '/' + newDate.getFullYear() + ' ' + newDate.getHours() + ':' + mins;
     return formattedDateString;
     };
     
@@ -28,7 +30,7 @@
         	while(start<=stop)
         	{
         		var tweet = streams.home[start];
-        		var $tweet = $('<div></div>');
+        		var $tweet = $('<div class=\'tweet ' + tweet.user + '\'></div>');
         		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
         		$button.after($tweet);
         		start += 1;
