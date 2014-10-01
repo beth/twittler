@@ -20,11 +20,21 @@
       	//create jquery variable for body, clear body
         var $body = $('body');
         $body.html('');
-        //create button
-        var button = $('<button type="button">Update Tweets</button>');
-        $body.prepend(button); 
-        var $button = $('button');
+        var buttonContainer = $('<div id = "buttonContainer"></div>');
+        $body.prepend(buttonContainer);
+        var $buttonContainer = $('#buttonContainer');
         
+        
+        //create button for refreshing tweets
+        var button = $('<button type="button" id = "update">Update Tweets</button>');
+        //$body.prepend(button); 
+        $buttonContainer.prepend(button);
+        var $update = $('#update');
+        var home = $('<button type="button" id = "home">Home</button>');
+        //$body.prepend(button); 
+        $buttonContainer.prepend(home);
+        var $home = $('#home');
+        $home.hide();
        
         //To keep track of if just user stream or all users
         var userStream = undefined;
@@ -36,7 +46,7 @@
         		var tweet = tweetObj[start];
         		var $tweet = $('<div data-user = ' + tweet.user + ' class=\'tweet ' + tweet.user + '\'></div>');
         		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
-        		$button.after($tweet);
+        		$buttonContainer.after($tweet);
         		start += 1;
         	}
         }
@@ -47,7 +57,7 @@
         postTweets(streams.home,start, stop);
 		
 		//For refreshing tweets
-		$button.click(function(){
+		$update.click(function(){
 			start = stop+1;
 			if(userStream!=undefined)
 			{
@@ -62,9 +72,18 @@
 			}
 		});
 		
+		$home.click(function(){
+			$home.hide();
+			$buttonContainer.nextAll().remove();
+			start = 0;
+			stop = streams.home.length-1;
+			postTweets(streams.home,start,stop);
+		});
+		
 		$body.on('click','.tweet',function(){
 			userStream = $(this).data('user');
-			$button.nextAll().remove();
+			$buttonContainer.nextAll().remove();
+			$home.show();
 			start = 0;
 			stop = streams.users[userStream].length-1;
 			postTweets(streams.users[userStream],start,stop);
