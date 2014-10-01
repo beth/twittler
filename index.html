@@ -25,11 +25,15 @@
         $body.prepend(button); 
         var $button = $('button');
         
-        //Will use this to post all tweets, both initial and update
-        var postTweets = function(start,stop){
+       
+        //To keep track of if just user stream or all users
+        var userStream = undefined;
+        
+        //Will use this to post all tweets, initial and updated for home and user stream
+        var postTweets = function(tweetObj, start, stop){
         	while(start<=stop)
         	{
-        		var tweet = streams.home[start];
+        		var tweet = tweetObj[start];
         		var $tweet = $('<div data-user = ' + tweet.user + ' class=\'tweet ' + tweet.user + '\'></div>');
         		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
         		$button.after($tweet);
@@ -40,36 +44,30 @@
         //First post of tweets
         var start = 0;
         var stop = streams.home.length-1;
-        postTweets(start, stop);
+        postTweets(streams.home,start, stop);
 		
 		//For refreshing tweets
 		$button.click(function(){
 			start = stop+1;
-			stop = streams.home.length-1;
-			postTweets(start,stop);
+			if(userStream!=undefined)
+			{
+				stop = streams.users[userStream].length-1;
+				postTweets(streams.users[userStream],start,stop);
+			}
+			else
+			{
+				stop = streams.home.length-1;
+				userStream = undefined;
+				postTweets(streams.home,start,stop);
+			}
 		});
 		
 		$body.on('click','.tweet',function(){
-			//alert('click');
-			//alert(this);
-			var user = $(this).data('user');
-			//alert('clicked ' + user);
+			userStream = $(this).data('user');
 			$button.nextAll().remove();
-			
-			var curr = 0;
-			var last = streams.home.length-1;
-			while(curr<=last)
-        	{
-        		var tweet = streams.home[curr];
-        		if(tweet.user == user)
-        		{
-        		var $tweet = $('<div data-user = ' + tweet.user + ' class=\'tweet ' + tweet.user + '\'></div>');
-        		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
-        		$button.after($tweet);
-        		}
-        		curr += 1;
-        	}
-		
+			start = 0;
+			stop = streams.users[userStream].length-1;
+			postTweets(streams.users[userStream],start,stop);
 		});
       });
 
