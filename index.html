@@ -30,12 +30,13 @@
         	while(start<=stop)
         	{
         		var tweet = streams.home[start];
-        		var $tweet = $('<div class=\'tweet ' + tweet.user + '\'></div>');
+        		var $tweet = $('<div data-user = ' + tweet.user + ' class=\'tweet ' + tweet.user + '\'></div>');
         		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
         		$button.after($tweet);
         		start += 1;
         	}
         }
+        
         //First post of tweets
         var start = 0;
         var stop = streams.home.length-1;
@@ -43,9 +44,32 @@
 		
 		//For refreshing tweets
 		$button.click(function(){
-		start = stop+1;
-		stop = streams.home.length-1;
-		postTweets(start,stop);
+			start = stop+1;
+			stop = streams.home.length-1;
+			postTweets(start,stop);
+		});
+		
+		$body.on('click','.tweet',function(){
+			//alert('click');
+			//alert(this);
+			var user = $(this).data('user');
+			//alert('clicked ' + user);
+			$button.nextAll().remove();
+			
+			var curr = 0;
+			var last = streams.home.length-1;
+			while(curr<=last)
+        	{
+        		var tweet = streams.home[curr];
+        		if(tweet.user == user)
+        		{
+        		var $tweet = $('<div data-user = ' + tweet.user + ' class=\'tweet ' + tweet.user + '\'></div>');
+        		$tweet.text('@' + tweet.user + '(' + formatDate(tweet.created_at) + ')' + ': ' + tweet.message);
+        		$button.after($tweet);
+        		}
+        		curr += 1;
+        	}
+		
 		});
       });
 
