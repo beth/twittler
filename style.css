@@ -1,0 +1,56 @@
+body{
+	background-color: white;
+	padding: 5px;
+	margin-left:auto;
+	margin-right:auto;
+
+}
+
+.tweet{
+	padding: 5px 7px;
+	border-style: solid;
+	border-color: rgba(255,255,255,1);
+	border-width: 1px;
+	border-radius: 10px;
+	max-width: 500px;
+	margin-left:auto;
+	margin-right:auto;
+	font-family: 'Trebuchet MS', sans-serif;
+	font-size: 80%;
+	background-color: rgb(227,233,237);
+	color: rgb(83,128,149);
+}
+.sharksforcheap{
+	background-color: rgb(242,227,225);
+	color: rgb(203,78,72);
+}
+.mracus{
+	background-color: rgb(233,231,232);
+	color: rgb(117,111,111);
+}
+.shawndrost{
+	background-color: rgb(229,241,237);
+	color: rgb(109,174,152);
+}
+
+.douglascalhoun{
+	background-color: rgb(227,233,237);
+	color: rgb(83,128,149);
+}
+
+button{
+	display: block;
+	padding: 5px 7px;
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	border-radius: 10px;
+	max-width: 500px;
+	margin-left:auto;
+	margin-right:auto;
+	font-family: 'Trebuchet MS', sans-serif;
+	font-size: 80%;
+	background-color: white;
+	color: rgb(83,128,149);
+	
+}
